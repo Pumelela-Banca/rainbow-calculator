@@ -52,3 +52,61 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored if you use package restore
+packages/
+*.snupkg
+
+# MSBuild binary and log files
+*.log
+*.tlog
+*.cache
+*.dbmdl
+
+# Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+# Visual Studio Code
+.vscode/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Others
+*.bak
+*.tmp
+*.swp
+*.lock
+
+# Publish
+publish/
+*.publishsettings
+
+# WPF specific
+*.g.*
+*.i.*
+*.baml
+*.xaml.cs
