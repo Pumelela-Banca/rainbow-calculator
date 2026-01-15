@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:rainbow_calculator"
         mc:Ignorable="d"
-        Title="Rainbow Calculator" Height="300" Width="250">
+        Title="Rainbow Calculator" Height="250" Width="250"
+        KeyDown="Window_KeyDown"
+        Focusable="True">
     <StackPanel Margin="10">
         <TextBox x:Name="Display"
                  FontSize="24"
@@ -14,26 +16,26 @@
                  IsReadOnly="True"
                  Background="White"/>
 
-        <UniformGrid Columns="4" Margin="0,10,0,0" Height="200">
+        <UniformGrid Columns="4"  Height="120" Margin="0,10,0,0">
             <Button Content="7" Click="Button_Click" Background="red" />
             <Button Content="8" Click="Button_Click"  Background="Orange"/>
             <Button Content="9" Click="Button_Click" Background="Yellow"/>
-            <Button Content="/" Click="Button_Click" Background="Green"/>
+            <Button Content="/" Click="Operator_Click" Background="Green"/>
 
             <Button Content="4" Click="Button_Click" Background="Orange"/>
             <Button Content="5" Click="Button_Click" Background="Yellow"/>
             <Button Content="6" Click="Button_Click" Background="Green"/>
-            <Button Content="x" Click="Button_Click" Background="Blue"/>
+            <Button Content="x" Click="Operator_Click" Background="Blue"/>
 
             <Button Content="1" Click="Button_Click" Background="Yellow"/>
             <Button Content="2" Click="Button_Click" Background="Green"/>
             <Button Content="3" Click="Button_Click" Background="Blue"/>
-            <Button Content="-" Click="Button_Click" Background="Indigo"/>
+            <Button Content="-" Click="Operator_Click" Background="Indigo"/>
 
             <Button Content="0" Click="Button_Click" Background="Green"/>
-            <Button Content="C" Click="Button_Click" Background="Blue"/>
-            <Button Content="=" Click="Button_Click" Background="Indigo"/>
-            <Button Content="+" Click="Button_Click" Background="Violet"/>
+            <Button Content="C" Click="Clear_Click" Background="Blue"/>
+            <Button Content="=" Click="Equals_Click" Background="Indigo"/>
+            <Button Content="+" Click="Operator_Click" Background="Violet"/>
         </UniformGrid>
             
 
