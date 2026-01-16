@@ -16,7 +16,7 @@
                  IsReadOnly="True"
                  Background="White"/>
 
-        <UniformGrid Columns="4"  Height="120" Margin="0,10,0,0">
+        <UniformGrid Columns="4"  Height="125" Margin="0,10,0,0">
             <Button Content="7" Click="Button_Click" Background="red" />
             <Button Content="8" Click="Button_Click"  Background="Orange"/>
             <Button Content="9" Click="Button_Click" Background="Yellow"/>
