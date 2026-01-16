@@ -207,13 +207,32 @@ namespace rainbow_calculator
 
         private void Backspace()
         {
-            // remove spaces
-            if (_onDsiplay[^1..] == " ")
-                _onDsiplay = _onDsiplay[..^1];
+            if (string.IsNullOrEmpty(_onDsiplay))
+            {
+                Display.Text = "0";
+                _isNewInput = true;
+                return;
+            }
 
-            if (_operator != string.Empty && _onDsiplay[..^1] != _operator)
+            // remove trailing space
+            if (_onDsiplay.EndsWith(" "))
             {
                 _onDsiplay = _onDsiplay[..^1];
+            }
+
+            // handle operator removal
+            if (!string.IsNullOrEmpty(_operator))
+            {
+                if (_onDsiplay.EndsWith(_operator))
+                {
+                    _onDsiplay = _onDsiplay[..^1];
+                    _operator = string.Empty;
+                }
+                else
+                {
+                    _onDsiplay = _onDsiplay[..^1];
+                }
+                Display.Text = _onDsiplay;
             }
             else if (_isNewInput || Display.Text.Length <= 1)
             {
@@ -223,11 +242,11 @@ namespace rainbow_calculator
             }
             else
             {
-                _onDsiplay = _onDsiplay[]
-                Display.Text = Display.Text[..^1];
+                _onDsiplay = _onDsiplay[..^1];
+                Display.Text = _onDsiplay;
             }
-            Display.Text = _onDsiplay;
         }
+
     }
 
 }
