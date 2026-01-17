@@ -52,33 +52,35 @@ namespace rainbow_calculator
         {
             if (sender is not Button button) return;
 
-            if (double.TryParse(Display.Text, out double number))
+
+            if (_onDsiplay == "" || Display.Text == "0")
             {
-                
-                _firstNumber = number;
-                _operator = button.Content.ToString()!;
-                if (_onDsiplay.Contains(_operator!))
-                {
-                    _onDsiplay = _onDsiplay[0..^2];
-                    _onDsiplay += " ";
-                    _onDsiplay += _operator + " ";
-                }
-                else
-                {
-                    _onDsiplay += " ";
-                    _onDsiplay += _operator + " ";
-                }
-                
-                
-                _isNewInput = true;
+                return;
+            }
+            else if (_onDsiplay.Contains('+') || _onDsiplay.Contains('-') ||
+                _onDsiplay.Contains('x') || _onDsiplay.Contains('/'))
+            {
+                Equals_Click(sender, e);
+            }
+            else
+            {
+                _onDsiplay += " " + button.Content.ToString() + " ";
                 Display.Text = _onDsiplay;
             }
+            _operator = button.Content.ToString();
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             // check if all nums are entered 
+            if (_onDsiplay == "0" || !_onDsiplay.Contains(' '))
+                return;
+
             string[] allItems = _onDsiplay.Split(" ");
+            if (allItems.Length != 3)
+                return;
+
+            
             if (!double.TryParse(allItems[2], out double secondNumber))
                 return;
 
@@ -94,10 +96,10 @@ namespace rainbow_calculator
                 case "−":
                     result = _firstNumber - secondNumber;
                     break;
-                case "×":
+                case "x":
                     result = _firstNumber * secondNumber;
                     break;
-                case "÷":
+                case "/":
                     if (secondNumber == 0)
                     {
                         MessageBox.Show("Cannot divide by zero", "Error",
@@ -111,8 +113,21 @@ namespace rainbow_calculator
                     return;
             }
 
-            Display.Text = result.ToString();
-            _isNewInput = true;
+            var currPress = sender as Button;
+            if (currPress == null) return;
+            
+            // use operator as equal
+            if (currPress.Content.ToString() == "=")
+            {
+                Display.Text = result.ToString();
+                _onDsiplay = result.ToString();
+            }
+            else
+            {
+                _onDsiplay = result.ToString() + ' ' + currPress.Content.ToString();
+                Display.Text = _onDsiplay;
+            }
+                
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
