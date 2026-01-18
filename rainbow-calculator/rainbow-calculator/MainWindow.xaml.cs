@@ -21,6 +21,7 @@ namespace rainbow_calculator
         private string _operator = string.Empty;
         private bool _isNewInput = true;
         private string _onDsiplay = "";
+        private string _answer = string.Empty;
 
         public MainWindow()
         {
@@ -60,20 +61,36 @@ namespace rainbow_calculator
             else if (_onDsiplay.Contains('+') || _onDsiplay.Contains('-') ||
                 _onDsiplay.Contains('x') || _onDsiplay.Contains('/'))
             {
-                Equals_Click(sender, e);
+                
+                if (_onDsiplay[^2] == '+' || _onDsiplay[^2] == '-'
+                    || _onDsiplay[^2] == 'x' || _onDsiplay[^2] == '/')
+                {
+                    _operator = button.Content.ToString();
+                    _onDsiplay = _onDsiplay[..^3] + " " + _operator + " ";
+                    Display.Text = _onDsiplay;
+                }
+                else if (_onDsiplay.Split(' ').Length == 3)
+                    Equals_Click(sender, e);
+                else
+                {
+                    _operator = button.Content.ToString();
+                    _onDsiplay = _onDsiplay[..^1] + _operator;
+                }
             }
             else
             {
                 _onDsiplay += " " + button.Content.ToString() + " ";
                 Display.Text = _onDsiplay;
+                _operator = button.Content.ToString();
             }
-            _operator = button.Content.ToString();
+            
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             // check if all nums are entered 
-            if (_onDsiplay == "0" || !_onDsiplay.Contains(' '))
+            
+            if (_onDsiplay == "0" || !_onDsiplay.Contains(" "))
                 return;
 
             string[] allItems = _onDsiplay.Split(" ");
@@ -114,19 +131,22 @@ namespace rainbow_calculator
             }
 
             var currPress = sender as Button;
-            if (currPress == null) return;
+            
             
             // use operator as equal
             if (currPress.Content.ToString() == "=")
             {
                 Display.Text = result.ToString();
                 _onDsiplay = result.ToString();
+                _isNewInput = true;
             }
             else
             {
-                _onDsiplay = result.ToString() + ' ' + currPress.Content.ToString();
+                _onDsiplay = result.ToString() + ' ' + currPress.Content.ToString() + ' ';
                 Display.Text = _onDsiplay;
+                _isNewInput = false;
             }
+            
                 
         }
 
@@ -263,5 +283,4 @@ namespace rainbow_calculator
         }
 
     }
-
 }
