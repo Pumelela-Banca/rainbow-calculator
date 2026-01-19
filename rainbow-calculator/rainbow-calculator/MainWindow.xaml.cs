@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -131,7 +132,6 @@ namespace rainbow_calculator
             }
 
             var currPress = sender as Button;
-            Display.Text = string.Join(" ,", _onDsiplay.Split(" "));
 
             // use operator as equal
             if (currPress!.Content.ToString() == "=")
@@ -146,8 +146,6 @@ namespace rainbow_calculator
                 _onDsiplay = result.ToString() + ' ' + currPress.Content.ToString() + ' ';
                 Display.Text = _onDsiplay;
             }
-            
-                
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -192,7 +190,7 @@ namespace rainbow_calculator
 
                 case Key.Subtract:
                 case Key.OemMinus:
-                    SetOperator("+");
+                    SetOperator("-");
                     break;
 
                 case Key.Multiply:
@@ -204,7 +202,7 @@ namespace rainbow_calculator
                     SetOperator("/");
                     break;
                 case Key.Enter:
-                    Equals_Click(this, new RoutedEventArgs());
+                    Equals_Click2(string.Empty);
                     break;
 
                 case Key.Escape:
@@ -233,12 +231,92 @@ namespace rainbow_calculator
 
         private void SetOperator(string op)
         {
-            if (double.TryParse(Display.Text, out double number))
+            if (_onDsiplay == "" || Display.Text == "0")
             {
-                _firstNumber = number;
-                _operator = op;
-                _isNewInput = true;
+                return;
             }
+            else if (_onDsiplay.Contains('+') || _onDsiplay.Contains('-') ||
+                _onDsiplay.Contains('x') || _onDsiplay.Contains('/'))
+            {
+
+                if (_onDsiplay[^2] == '+' || _onDsiplay[^2] == '-'
+                    || _onDsiplay[^2] == 'x' || _onDsiplay[^2] == '/')
+                {
+                    _operator = op;
+                    _onDsiplay = _onDsiplay[..^3] + " " + _operator + " ";
+                    Display.Text = _onDsiplay;
+                }
+                else if (_onDsiplay.Split(' ').Length == 3)
+                {
+                    Equals_Click2(op);
+                }
+                else
+                {
+                    _operator = op.ToString();
+                    _onDsiplay = _onDsiplay[..^1] + _operator + " ";
+                }
+            }
+            else
+            {
+                _onDsiplay += " " + op + " ";
+                Display.Text = _onDsiplay;
+                _operator = op;
+            }
+
+        }
+
+        private void Equals_Click2(string op)
+        {
+            // check if all nums are entered 
+
+            if (_onDsiplay == "0" || !_onDsiplay.Contains(" "))
+                return;
+
+            string[] allItems = _onDsiplay.Split(" ");
+            if (allItems.Length != 3)
+                return;
+
+            if (!double.TryParse(allItems[2], out double secondNumber))
+                return;
+
+            double result;
+            double.TryParse(allItems[0], out _firstNumber);
+
+            switch (_operator)
+            {
+                case "+":
+                    result = _firstNumber + secondNumber;
+                    break;
+                case "-":
+                    result = _firstNumber - secondNumber;
+                    break;
+                case "x":
+                    result = _firstNumber * secondNumber;
+                    break;
+                case "/":
+                    if (secondNumber == 0)
+                    {
+                        MessageBox.Show("Cannot divide by zero", "Error",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        Clear();
+                        return;
+                    }
+                    result = _firstNumber / secondNumber;
+                    break;
+                default:
+                    return;
+            }
+
+            if (op == string.Empty)
+            {
+                _onDsiplay = result.ToString();
+                Display.Text = _onDsiplay;
+                _answer = _onDsiplay;
+                return;
+            }
+            // use operator as equal
+               _onDsiplay = result.ToString() + ' ' + op + ' ';
+                Display.Text = _onDsiplay;
         }
 
         private void Backspace()
