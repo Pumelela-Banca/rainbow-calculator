@@ -86,7 +86,6 @@ namespace rainbow_calculator
                 Display.Text = _onDsiplay;
                 _operator = button.Content.ToString();
             }
-            
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
@@ -220,14 +219,15 @@ namespace rainbow_calculator
 
         private void HandleDigit(char digit)
         {
-            if (_isNewInput)
+            if (_onDsiplay == "0")
             {
-                Display.Text = digit.ToString();
-                _isNewInput = false;
+                _onDsiplay = digit.ToString();
+                Display.Text = _onDsiplay;
             }
             else
             {
-                Display.Text += digit;
+                _onDsiplay += digit.ToString();
+                Display.Text = _onDsiplay;
             }
         }
 
