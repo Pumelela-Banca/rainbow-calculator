@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,17 +37,17 @@ namespace rainbow_calculator
         {
             if (sender is not Button button) return;
 
-            if (_isNewInput)
+            if (_onDsiplay == "0")
             {
                 _onDsiplay = button.Content.ToString();
                 Display.Text = _onDsiplay;
-                _isNewInput = false;
-            }
+            } 
             else
             {
                 _onDsiplay += button.Content.ToString();
                 Display.Text = _onDsiplay;
             }
+
         }
 
         private void Operator_Click(object sender, RoutedEventArgs e)
@@ -70,11 +71,13 @@ namespace rainbow_calculator
                     Display.Text = _onDsiplay;
                 }
                 else if (_onDsiplay.Split(' ').Length == 3)
+                { 
                     Equals_Click(sender, e);
+                }
                 else
                 {
                     _operator = button.Content.ToString();
-                    _onDsiplay = _onDsiplay[..^1] + _operator;
+                    _onDsiplay = _onDsiplay[..^1] + _operator + " ";
                 }
             }
             else
@@ -96,21 +99,19 @@ namespace rainbow_calculator
             string[] allItems = _onDsiplay.Split(" ");
             if (allItems.Length != 3)
                 return;
-
             
             if (!double.TryParse(allItems[2], out double secondNumber))
                 return;
 
             double result;
             double.TryParse(allItems[0], out _firstNumber);
-            
 
             switch (_operator)
             {
                 case "+":
                     result = _firstNumber + secondNumber;
                     break;
-                case "−":
+                case "-":
                     result = _firstNumber - secondNumber;
                     break;
                 case "x":
@@ -131,20 +132,20 @@ namespace rainbow_calculator
             }
 
             var currPress = sender as Button;
-            
-            
+            Display.Text = string.Join(" ,", _onDsiplay.Split(" "));
+
             // use operator as equal
-            if (currPress.Content.ToString() == "=")
+            if (currPress!.Content.ToString() == "=")
             {
+
                 Display.Text = result.ToString();
                 _onDsiplay = result.ToString();
-                _isNewInput = true;
+                _answer = result.ToString();
             }
             else
             {
                 _onDsiplay = result.ToString() + ' ' + currPress.Content.ToString() + ' ';
                 Display.Text = _onDsiplay;
-                _isNewInput = false;
             }
             
                 
