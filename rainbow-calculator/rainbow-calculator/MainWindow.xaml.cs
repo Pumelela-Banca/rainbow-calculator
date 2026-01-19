@@ -38,6 +38,12 @@ namespace rainbow_calculator
         {
             if (sender is not Button button) return;
 
+            if (_onDsiplay == _answer)
+            {
+                _onDsiplay = "0";
+                _answer = string.Empty;
+            }
+
             if (_onDsiplay == "0")
             {
                 _onDsiplay = button.Content.ToString();
@@ -217,6 +223,14 @@ namespace rainbow_calculator
 
         private void HandleDigit(char digit)
         {
+
+            // Handle answer still on display
+            if (_onDsiplay == _answer)
+            {
+                _onDsiplay = "0";
+                _answer = string.Empty;
+            }
+
             if (_onDsiplay == "0")
             {
                 _onDsiplay = digit.ToString();
