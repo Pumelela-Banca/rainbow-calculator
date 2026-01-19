@@ -193,16 +193,16 @@ namespace rainbow_calculator
 
                 case Key.Subtract:
                 case Key.OemMinus:
-                    SetOperator("−");
+                    SetOperator("+");
                     break;
 
                 case Key.Multiply:
-                    SetOperator("×");
+                    SetOperator("x");
                     break;
 
                 case Key.Divide:
                 case Key.Oem2: // '/'
-                    SetOperator("÷");
+                    SetOperator("/");
                     break;
                 case Key.Enter:
                     Equals_Click(this, new RoutedEventArgs());
